@@ -26,6 +26,11 @@ public class Robot {
 	private double[] targetWayPoint;
 	private double[] avoidanceStart = new double[2];
 	private long detectionTime;
+	private double detectionDeltaSlope;
+	private double curSlope;
+	private double avoidSlope;
+
+
 
 	// lock object for mutual exclusion
 	private Object lock;
@@ -126,6 +131,25 @@ public class Robot {
 		synchronized (lock) {
 			WHEEL_RADIUS = tempWHEEL_RADIUS;
 		}
+	}
+	// Slope Information //
+	public double getDetectionDeltaSlope() {
+		return detectionDeltaSlope;
+	}
+	public void setDetectionDeltaSlope(double detectionDeltaSlope) {
+		this.detectionDeltaSlope = detectionDeltaSlope;
+	}
+	public double getCurSlope() {
+		return curSlope;
+	}
+	public void setCurSlope(double curSlope) {
+		this.curSlope = curSlope;
+	}
+	public double getAvoidSlope() {
+		return avoidSlope;
+	}
+	public void setAvoidSlope(double avoidSlope) {
+		this.avoidSlope = avoidSlope;
 	}
 	
 	// AVOIDANCE INFORMATION //

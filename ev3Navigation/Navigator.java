@@ -4,7 +4,7 @@ public class Navigator extends Thread {
 	// class constants
 	private int NAV_ACTIVE = 50;
 	private int NAV_SLEEP = 300;
-	private static int wayPointProximity = 2;
+	private static int wayPointProximity = 1;
 	private static int minTurnAng = 1;
 	
 	// class passed constants
@@ -21,12 +21,10 @@ public class Navigator extends Thread {
 		robot = robot_passed;
 		odometer = odo_passed;
 		driver = driver_passed;
-		
-		robot.setTargetWayPoint(wayPoints[currentWayPointIndex]);
-		
 	}
 	
 	public void run(){
+		robot.setTargetWayPoint(wayPoints[currentWayPointIndex]);
 		while (true) {
 			
 			if(robot.getState() == "NAVIGATION"){
@@ -39,11 +37,17 @@ public class Navigator extends Thread {
 					// have reached target waypoint..
 					
 					if(wayPoints.length == currentWayPointIndex-1){
-						// You're done! :D
-						System.out.println("Completed Way Points!");
-						System.exit(-1);
+
 					} else {
 						currentWayPointIndex += 1;
+						if(wayPoints.length == currentWayPointIndex){
+							
+							robot.getLeftmotor().stop();
+							robot.getRightmotor().stop();
+							// You're done! :D
+							System.out.println("Completed Way Points!");
+							System.exit(-1);
+						}
 						robot.setTargetWayPoint(wayPoints[currentWayPointIndex]);
 					}
 				} else {

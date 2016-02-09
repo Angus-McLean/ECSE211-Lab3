@@ -15,23 +15,22 @@ public class WallFollwer extends Thread {
 	private int AVD_SLEEP = 300;
 	
 	// Wall following parameters
-	private static final int bandCenter = 5;			// Offset from the wall (cm)
-	private static final int bandWidth = 3;				// Width of dead band (cm)
+	private static final int bandCenter = 15;			// Offset from the wall (cm)
+	private static final int bandWidth = 5;				// Width of dead band (cm)
 	
 	
 	// P-Controller
-	private final int FILTER_OUT = 15, motorConst = 80;
-	private final double SPEED_MULTIPLIER = 1.0;
-	private final double concaveMult = 7;
+	private final int FILTER_OUT = 8, motorConst = 100;
+	private final double SPEED_MULTIPLIER = 2.0;
 	private int distance;
 	private int filterControl;
 	private int distError;
 	
 	// Obstacle Detection
-	private final int detectionDistance = 20;
-	private final int DETECTION_COUNT_MIN = 3;
+	private final int detectionDistance = 30;
+	private final int DETECTION_COUNT_MIN = 2;
 	private final double AVOIDANCE_HEADING = -90.0;
-	private final double AVOIDANCE_HEADING_WINDOW = 10.0;
+	private final double AVOIDANCE_HEADING_WINDOW = 7.0;
 	
 	private double[] locationAtDetection = new double[2];
 	private double targetAvoidanceHeading;
@@ -39,7 +38,7 @@ public class WallFollwer extends Thread {
 	private long MIN_AVOID_TIME = 10*1000;
 	private double MIN_NAV_RESUME_SLOPE = 0.1;
 	private static final int forwardSensorAngle = 0;
-	private static final int wallSensorAngle = -90;
+	private static final int wallSensorAngle = -80;
 
 	
 	private int detectionCount = 0;
@@ -186,6 +185,10 @@ public class WallFollwer extends Thread {
 		long curTime = System.currentTimeMillis();
 		long elapseAvoidTime = curTime - timeAtDetection;
 		
+		robot.setDetectionDeltaSlope(deltaSlope);
+		robot.setCurSlope(deltaSlope);
+		robot.setAvoidSlope(deltaSlope);
+		
 		if(deltaSlope < MIN_NAV_RESUME_SLOPE && elapseAvoidTime > MIN_AVOID_TIME){
 			// the robot has successfully traveled to the other side of the block and can now resume course
 			
@@ -238,8 +241,8 @@ public class WallFollwer extends Thread {
 		// Too close to wall
 		else if (distError > 0) {
 			
-			robot.getLeftmotor().setSpeed((int)(motorConst + varRate * concaveMult));
-			robot.getRightmotor().setSpeed((int)(motorConst - varRate * concaveMult));
+			robot.getLeftmotor().setSpeed((int)(int)(motorConst * SPEED_MULTIPLIER));
+			robot.getRightmotor().setSpeed((int)(motorConst));
 			robot.getLeftmotor().forward();
 			robot.getRightmotor().forward();	
 		}
@@ -250,8 +253,8 @@ public class WallFollwer extends Thread {
 			//calc ratio
 			//varRate = Math.abs(distError / (255 - bandCenter) * 500);
 			
-			robot.getLeftmotor().setSpeed(motorConst - varRate);
-			robot.getRightmotor().setSpeed(motorConst + varRate);
+			robot.getLeftmotor().setSpeed(motorConst);
+			robot.getRightmotor().setSpeed((int)(motorConst * SPEED_MULTIPLIER));
 			robot.getLeftmotor().forward();
 			robot.getRightmotor().forward();
 							

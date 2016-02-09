@@ -51,8 +51,8 @@ public class Lab3 {
 			
 			odometer.start();
 			odometryDisplay.start();
-			odometryCorrection3 = new OdometryCorrection3(odometer);
-			odometryCorrection3.start();
+			//odometryCorrection3 = new OdometryCorrection3(odometer);
+			//odometryCorrection3.start();
 			
 		} else if(buttonChoice == Button.ID_RIGHT) {
 			
@@ -81,7 +81,10 @@ public class Lab3 {
 			//odometryCorrection3.start();
 			
 			// Navigation
+			double[][] wayPoints = {{0,60},{60,0}};
+			navigator.setWayPoints(wayPoints);
 			navigator.start();
+			
 			
 			// Wall Follower
 			wallFollower.start();
