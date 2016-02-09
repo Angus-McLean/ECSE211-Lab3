@@ -16,7 +16,7 @@ public class Robot {
 	private static String NAVIGATION = "NAVIGATION";
 	private static String AVOIDANCE = "AVOIDANCE";
 	private static String WALLFOLLOW = "WALLFOLLOW";
-	private double WHEEL_RADIUS = 2.1;
+	private double WHEEL_RADIUS = 2.15;
 	private double TRACK = 16.03;
 	
 	

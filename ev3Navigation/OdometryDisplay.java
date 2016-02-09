@@ -41,8 +41,6 @@ public class OdometryDisplay extends Thread {
 			t.drawString("DeltSlope : "+this.robot.getDetectionDeltaSlope(), 0, 5);
 			t.drawString("CurSlope : "+this.robot.getCurSlope(), 0, 6);
 			t.drawString("AvoidSlope : "+this.robot.getAvoidSlope(), 0, 7);
-			
-			//t.drawString("7:39", 0, 3);
 
 			// get the odometry information
 			odometer.getPosition(position, new boolean[] { true, true, true });

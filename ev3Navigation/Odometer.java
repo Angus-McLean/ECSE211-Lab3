@@ -19,8 +19,8 @@ public class Odometer extends Thread {
 
 	// default constructor
 	public Odometer(Robot robot_inner) {
-		x = 0.0;
-		y = 0.0;
+		x = 0.1;
+		y = 0.1;
 		// start at 90degress
 		theta = Math.PI / 2;
 		lock = new Object();
